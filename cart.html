@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        /* Your existing styles */
+        * {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto;
+        }
+        header {
+            display: flex;
+            flex-direction: row;
+            border-bottom: 2px solid rgb(156, 151, 151);
+        }
+        .title {
+            color: #ff6600;
+            width: 60%;
+        }
+        .title h1 {
+            padding: 2%;
+            padding-left: 8%;
+        }
+        nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            width: 40%;
+        }
+        nav a {
+            text-decoration: none;
+        }
+        nav img {
+            width: 10%;
+            padding: 1%;
+        }
+        footer {
+            background-color: black;
+            width: 100%;
+            height: 40vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        footer img {
+            width: 3%;
+            border-radius: 16px;
+        }
+        .cart-item {
+            width: 100%; 
+            height: auto; 
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        #cart-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .price {
+            font-size: 200%;
+            color: rgb(75, 224, 75);
+        }
+        #order-button {
+            width: 25%;
+            font-size: 150%;
+            background-color: #e49057;
+            border-radius: 15px;
+        }
+        .add-items {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .add-items a {
+            width: 10%;
+            height: 10%;
+            background-color: #dfbd34;
+            font-size: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .item-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+        table button{
+            background-color: tomato;
+            height: 35px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title">
+            <h1>FoodTime</h1>
+        </div>
+        <nav>
+            <a href="index.html"><img class="iconimg" src="homeicon.png" alt="">Home</a>
+            <a href="menu.html"><img class="iconimg" src="menu-icon.png" alt="">Menu</a>
+            <a href="about.html"><img class="iconimg" src="about-icon.png" alt="">About</a>
+            <a href="cart.html"><img class="iconimg" src="cart-icon.png" alt="">Cart</a>
+        </nav>
+    </header><br><br>
+    <center>
+        <h1>Cart</h1>
+        <div id="cart-items">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items-body"></tbody>
+            </table>
+        </div>
+        <br><br>
+        <div class="add-items">
+            <a href="menu.html">Add Items</a>
+        </div>
+        <p class="price">Total Price: <span id="total-price"></span></p>
+        <button id="order-button">Place Order</button>
+        <br><br>
+    </center>
+    <footer>
+        <h1>Contact us:</h1>
+        <ul>
+            <li>Phone No: 7569348057</li>
+            <li>Email: kiranmadine878@gmail.com</li>
+            <li>Address: Kompally, Hyderabad</li>
+        </ul>
+        <p>Follow us on:</p>
+        <a href="https://www.instagram.com/kiran_madine_/"><img src="instaicon.jpeg" alt="instalogo"></a>
+        <a href="https://wa.me/+917569348057"><img src="whattsappicon.jpeg" alt="whattsappicon"></a>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartItemsBody = document.getElementById('cart-items-body');
+            const totalPriceElement = document.getElementById('total-price');
+            const orderButton = document.getElementById('order-button');
+
+            displayCartItems();
+
+            function displayCartItems() {
+                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                cartItemsBody.innerHTML = '';
+                let totalPrice = 0;
+                cart.forEach((item, index) => {
+                    if (!item.quantity) item.quantity = 1; // Ensure default quantity is 1
+                    const row = document.createElement('tr');
+                    const itemTotalPrice = item.price * item.quantity;
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td><img src="${item.image}" class="item-img" alt="${item.name}"></td>
+                        <td>${item.price}</td>
+                        <td>
+                            <input type="number" value="${item.quantity}" min="1" data-index="${index}" class="quantity-input">
+                        </td>
+                        <td>${itemTotalPrice.toFixed(2)}</td>
+                        <td><button class="remove-from-cart" data-index="${index}">Remove</button></td>
+                    `;
+                    row.querySelector('.quantity-input').addEventListener('change', updateQuantity);
+                    row.querySelector('.remove-from-cart').addEventListener('click', removeFromCartClicked);
+                    cartItemsBody.appendChild(row);
+                    totalPrice += itemTotalPrice;
+                });
+                totalPriceElement.textContent = totalPrice.toFixed(2); // Display total price with 2 decimal places
+            }
+
+            function updateQuantity(event) {
+                const input = event.target;
+                const index = input.getAttribute('data-index');
+                const newQuantity = parseInt(input.value, 10);
+                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                if (newQuantity > 0) {
+                    cart[index].quantity = newQuantity;
+                } else {
+                    cart[index].quantity = 1; // Set minimum quantity to 1
+                }
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+                displayCartItems();
+            }
+
+            function removeFromCartClicked(event) {
+                const button = event.target;
+                const index = button.getAttribute('data-index');
+                removeItemFromCart(index);
+            }
+
+            function removeItemFromCart(index) {
+                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                cart.splice(index, 1);
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+                displayCartItems();
+            }
+
+            orderButton.addEventListener('click', function() {
+                // Redirect to the order page and pass the cart data as URL parameters
+                const cartData = sessionStorage.getItem('cart');
+                window.location.href = 'order.html?cart=' + encodeURIComponent(cartData);
+            });
+        });
+    </script>
+</body>
+</html>

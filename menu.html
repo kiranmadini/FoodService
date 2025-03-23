@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto;
+        }
+        header {
+            display: flex;
+            flex-direction: row;
+            border-bottom: 2px solid rgb(156, 151, 151);
+        }
+        .title {
+            color: #ff6600;
+            width: 60%;
+        }
+        .title h1 {
+            padding: 2%;
+            padding-left: 8%;
+        }
+        nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            width: 40%;
+        }
+        nav a {
+            text-decoration: none;
+        }
+        nav img {
+            width: 10%;
+            padding: 1%;
+        }
+        section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .frame {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .frame h3 {
+            text-align: center;
+        }
+        .frame p {
+            text-align: center;
+        }
+        .box {
+            width: 100%;
+            height: 200px;
+            background-color: burlywood;
+            border-radius: 7px;
+            background-size: cover;
+            background-position: center;
+        }
+        #box1 {
+            background-image: url('chickenbiryani.jpeg');
+        }
+        #box2 {
+            background-image: url('pizza.webp');
+        }
+        #box3 {
+            background-image: url('burgger.jpeg');
+        }
+        #box4 {
+            background-image: url('vegmeals.jpeg');
+        }
+        #box5 {
+            background-image: url('panner.jpeg');
+        }
+        #box6 {
+            background-image: url('roti.jpeg');
+        }
+        footer {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .view-cart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .view-cart a {
+            display: block;
+            width: 100px;
+            padding: 10px 20px;
+            background-color: #92df34;
+            font-size: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: black;
+            text-align: center;
+        }
+        .tick-mark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 40px;
+            border-radius: 9px;
+            background-color: green;
+            color: white;
+            font-size: 24px;
+        }
+        section button{
+            width: 100px;
+            height: 40px;
+            border-radius: 9px;
+            background-color: rgb(245, 212, 67); 
+            font-size: 15px;
+        }
+        footer{
+           background-color: black;
+           width: 100%;
+            height: 40vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            justify-content: space-evenly;
+         }
+        footer img{
+           width: 3%;
+           border-radius: 20px;
+
+         }
+  
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title">
+            <h1>FoodTime</h1>
+        </div>
+        <nav>
+            <a href="index.html"><img class="iconimg" src="homeicon.png" alt="">Home</a>
+            <a href="menu.html"><img class="iconimg" src="menu-icon.png" alt="">Menu</a>
+            <a href="about.html"><img class="iconimg" src="about-icon.png" alt="">About</a>
+            <a href="cart.html"><img class="iconimg" src="cart-icon.png" alt="">Cart</a>
+        </nav>
+    </header>
+    <br><br>
+    <div>
+       <center> <h2>Menu</h2></center>
+    </div>
+    <section>
+        <div class="frame">
+            <div class="box" id="box1"></div>
+            <h3>Chicken Biryani</h3>
+            <p>Price:&#8377;599</p>
+            <button class="add" dname="chickenbiryani" dprice="599" dimage="chickenbiryani.jpeg">Add to Cart</button>
+        </div>
+        <div class="frame">
+            <div class="box" id="box2"></div>
+            <h3>Pizza</h3>
+            <p>Price:&#8377;499</p>
+            <button class="add" dname="pizza" dprice="499" dimage="pizza.webp">Add to Cart</button>
+        </div>
+        <div class="frame">
+            <div class="box" id="box3"></div>
+            <h3>Burger</h3>
+            <p>Price:&#8377;299</p>
+            <button class="add" dname="Burger" dprice="299" dimage="burgger.jpeg">Add to Cart</button>
+        </div>
+        <div class="frame">
+            <div class="box" id="box4"></div>
+            <h3>Veg Meals</h3>
+            <p>Price:&#8377;199</p>
+            <button class="add" dname="Veg meals" dprice="199" dimage="vegmeals.jpeg">Add to Cart</button>
+        </div>
+        <div class="frame">
+            <div class="box" id="box5"></div>
+            <h3>Panner</h3>
+            <p>Price:&#8377;249</p>
+            <button class="add" dname="panner" dprice="249" dimage="panner.jpeg">Add to Cart</button>
+        </div>
+        <div class="frame">
+            <div class="box" id="box6"></div>
+            <h3>Roti</h3>
+            <p>Price:&#8377;59</p>
+            <button class="add" dname="Roti" dprice="59" dimage="roti.jpeg">Add to Cart</button>
+        </div>
+        
+    </section>
+    <br><br>
+    <div class="view-cart">
+        <a href="cart.html">View Cart</a>
+    </div>
+    <br><br>
+    <footer>
+        <h1>Contact us:</h1>
+        <ul>
+          <li>Phone No:7569348057</li>
+          <li>Email:kiranmadine878@gmail.com</li>
+          <li>Address:kompally,Hyderabad</li>
+        </ul>
+        <p>Follow us on:</p>
+        <div class="socialmedia">
+        <a href="https://www.instagram.com/kiran_madine_/"><img src="instaicon.jpeg" alt="instalogo"></a>
+        <a href="https://wa.me/+917569348057"><img src="whattsappicon.jpeg" alt="whattsappicon"></a>
+      </div>
+  </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButtons = document.querySelectorAll('.add');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', addToCartClicked);
+            });
+
+            function addToCartClicked(event) {
+                const button = event.target;
+                const name = button.getAttribute('dname');
+                const price = button.getAttribute('dprice');
+                const image = button.getAttribute('dimage');
+                addItemToCart(name, price, image);
+
+                // Replace button with tick mark
+                const tickMark = document.createElement('div');
+                tickMark.classList.add('tick-mark');
+                tickMark.innerHTML = '&#10003;'; // Unicode for check mark
+                button.parentNode.replaceChild(tickMark, button);
+            }
+
+            function addItemToCart(name, price, image) {
+                let cartItem = {
+                    name: name,
+                    price: price,
+                    image: image
+                };
+                // Store the item in local storage
+                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                cart.push(cartItem);
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+            }
+        });
+    </script>
+</body>
+</html>
