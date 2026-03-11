@@ -1,167 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order</title>
 
-    <!-- Load EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-    <script type="text/javascript">
-        (function(){
-            emailjs.init("lTC_OGVQCpoe24JM6"); // Replace with your actual public key
-        })();
-    </script>
+<script>
+(function(){
+emailjs.init("lTC_OGVQCpoe24JM6");
+})();
+</script>
 
-    <style>
-        * { margin: 0; padding: 0; width: 100%; height: auto; }
-        header { display: flex; flex-direction: row; border-bottom: 2px solid rgb(156, 151, 151); }
-        .title { color: #ff6600; width: 60%; }
-        .title h1 { padding: 2%; padding-left: 8%; }
-        nav { display: flex; flex-direction: row; align-items: center; justify-content: space-around; width: 40%; }
-        nav a { text-decoration: none; }
-        nav img { width: 10%; padding: 1%; }
-        footer { background-color: black; width: 100%; height: 40vh; color: white; display: flex; flex-direction: column; text-align: center; align-items: center; justify-content: space-evenly; }
-        footer img { width: 3%; border-radius: 20px; }
-        section { width: 100%; padding: 2%; border-bottom: 2px solid rgb(156, 151, 151); }
-        input { width: 40%; height: 30px; padding-left: 1%; margin-bottom: 10px; }
-        button { width: 100%; font-size: 150%; background-color: #e49057; border-radius: 15px; padding: 10px; }
-        .error { color: red; font-size: 1.2em; }
-        #loading-symbol { display: none; height: 50px; }
-    </style>
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+header{
+display:flex;
+border-bottom:2px solid rgb(156,151,151);
+}
+
+.title{color:#ff6600;width:60%;}
+.title h1{padding:2%;padding-left:8%;}
+
+nav{
+display:flex;
+align-items:center;
+justify-content:space-around;
+width:40%;
+}
+
+nav img{width:25px;}
+
+section{
+padding:20px;
+border-bottom:2px solid rgb(156,151,151);
+text-align:center;
+}
+
+input{
+width:40%;
+height:35px;
+padding-left:10px;
+margin-bottom:10px;
+}
+
+button{
+width:100%;
+font-size:20px;
+background:#e49057;
+border:none;
+border-radius:10px;
+padding:10px;
+cursor:pointer;
+}
+
+.error{color:red;}
+
+#loading-symbol{
+display:none;
+height:50px;
+}
+
+footer{
+background:black;
+color:white;
+height:200px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+</style>
 </head>
+
 <body>
-    <header>
-        <div class="title"><h1>FoodTime</h1></div>
-        <nav>
-            <a href="index.html"><img src="homeicon.png" alt="">Home</a>
-            <a href="menu.html"><img src="menu-icon.png" alt="">Menu</a>
-            <a href="about.html"><img src="about-icon.png" alt="">About</a>
-            <a href="cart.html"><img src="cart-icon.png" alt="">Cart</a>
-        </nav>
-    </header>
 
-    <center>
-        <section>
-            <h2>Contact</h2><br>
-            <form id="order-form">
-                <input type="email" placeholder="Email" id="email" required><br>
-                <input type="number" placeholder="Mobile No" id="mobileno" required><br>
-                <input type="text" placeholder="First Name" id="firstname" required><br>
-                <input type="text" placeholder="Last Name" id="lastname" required><br>
-            </form>
-            <p id="error-message" class="error"></p>
-        </section>
-    </center>
+<header>
+<div class="title"><h1>FoodTime</h1></div>
 
-    <center>
-        <aside>
-            <h2>Order Summary</h2><br>
-            <div id="order-summary">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody id="order-items-body"></tbody>
-                </table>
-            </div>
-            <br>
-            <p class="price">Total Price: <span id="total-price"></span></p><br>
-            <button id="confirm-button">Confirm Order</button>
-            <img id="loading-symbol" src="loading.gif" alt="Loading">
-            <p id="order-status"></p>
-        </aside>
-    </center>
+<nav>
+<a href="index.html">Home</a>
+<a href="menu.html">Menu</a>
+<a href="about.html">About</a>
+<a href="cart.html">Cart</a>
+</nav>
 
-    <footer>
-        <h1>Contact us:</h1>
-        <ul>
-            <li>Phone No: 7569348057</li>
-            <li>Email: kiranmadine878@gmail.com</li>
-            <li>Address: Kompally, Hyderabad</li>
-        </ul>
-        <p>Follow us on:</p>
-        <div class="socialmedia">
-            <a href="https://www.instagram.com/kiran_madine_/"><img src="instaicon.jpeg" alt="Instagram"></a>
-            <a href="https://wa.me/+917569348057"><img src="whattsappicon.jpeg" alt="WhatsApp"></a>
-        </div>
-    </footer>
+</header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const orderItemsBody = document.getElementById('order-items-body');
-            const totalPriceElement = document.getElementById('total-price');
-            const confirmButton = document.getElementById('confirm-button');
-            const loadingSymbol = document.getElementById('loading-symbol');
-            const orderStatus = document.getElementById('order-status');
-            const errorMessage = document.getElementById('error-message');
+<section>
 
-            function getCartData() {
-                const urlParams = new URLSearchParams(window.location.search);
-                return JSON.parse(urlParams.get('cart') || '[]');
-            }
+<h2>Contact</h2><br>
 
-            function displayOrderItems() {
-                const cart = getCartData();
-                orderItemsBody.innerHTML = '';
-                let totalPrice = 0;
-                cart.forEach(item => {
-                    const itemTotal = item.price * (item.quantity || 1);
-                    orderItemsBody.innerHTML += `
-                        <tr>
-                            <td>${item.name}</td>
-                            <td>${item.price}</td>
-                            <td>${item.quantity || 1}</td>
-                            <td>${itemTotal.toFixed(2)}</td>
-                        </tr>`;
-                    totalPrice += itemTotal;
-                });
-                totalPriceElement.textContent = totalPrice.toFixed(2);
-            }
+<form id="order-form">
 
-            confirmButton.addEventListener('click', function() {
-                const email = document.getElementById('email').value;
-                const mobileno = document.getElementById('mobileno').value;
-                const firstname = document.getElementById('firstname').value;
-                const lastname = document.getElementById('lastname').value;
+<input type="email" placeholder="Email" id="email" required><br>
+<input type="number" placeholder="Mobile No" id="mobileno" required><br>
+<input type="text" placeholder="First Name" id="firstname" required><br>
+<input type="text" placeholder="Last Name" id="lastname" required><br>
 
-                if (email && mobileno && firstname && lastname) {
-                    errorMessage.textContent = '';
-                    const cart = getCartData();
-                    const totalPrice = totalPriceElement.textContent;
-                    const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+</form>
 
-                    const templateParams = {
-                        to_email: email,
-                        email, mobileno, firstname, lastname,
-                        cart: JSON.stringify(cart, null, 2),
-                        totalPrice, orderId
-                    };
+<p id="error-message" class="error"></p>
 
-                    loadingSymbol.style.display = 'block';
-                    emailjs.send("service_mvoon8t", "template_nbubad8", templateParams)
-                        .then(() => {
-                            loadingSymbol.style.display = 'none';
-                            confirmButton.style.display = 'none';
-                            orderStatus.textContent = `Order placed! Your Order ID: ${orderId}`;
-                        })
-                        .catch(error => {
-                            loadingSymbol.style.display = 'none';
-                            orderStatus.textContent = `Failed: ${error.text}`;
-                        });
-                } else {
-                    errorMessage.textContent = 'Please fill all fields.';
-                }
-            });
+</section>
 
-            displayOrderItems();
-        });
-    </script>
+<section>
+
+<h2>Order Summary</h2><br>
+
+<table width="100%">
+<thead>
+<tr>
+<th>Item</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Subtotal</th>
+</tr>
+</thead>
+
+<tbody id="order-items-body"></tbody>
+
+</table>
+
+<br>
+
+<p><b>Total Price:</b> ₹<span id="total-price"></span></p>
+
+<br>
+
+<button id="confirm-button">Confirm Order</button>
+
+<img id="loading-symbol" src="loading.gif">
+
+<p id="order-status"></p>
+
+</section>
+
+<footer>
+
+<h2>Contact us</h2>
+
+<p>Phone: 7569348057</p>
+<p>Email: kiranmadine878@gmail.com</p>
+<p>Address: Kompally, Hyderabad</p>
+
+</footer>
+
+<script>
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const orderItemsBody=document.getElementById("order-items-body");
+const totalPriceElement=document.getElementById("total-price");
+const confirmButton=document.getElementById("confirm-button");
+const loadingSymbol=document.getElementById("loading-symbol");
+const orderStatus=document.getElementById("order-status");
+const errorMessage=document.getElementById("error-message");
+
+function getCartData(){
+
+const urlParams=new URLSearchParams(window.location.search);
+return JSON.parse(urlParams.get("cart") || "[]");
+
+}
+
+function displayOrderItems(){
+
+const cart=getCartData();
+
+orderItemsBody.innerHTML="";
+
+let totalPrice=0;
+
+cart.forEach(item=>{
+
+const qty=item.quantity || 1;
+const subtotal=item.price * qty;
+
+orderItemsBody.innerHTML+=`
+
+<tr>
+<td>${item.name}</td>
+<td>₹${item.price}</td>
+<td>${qty}</td>
+<td>₹${subtotal.toFixed(2)}</td>
+</tr>
+
+`;
+
+totalPrice+=subtotal;
+
+});
+
+totalPriceElement.textContent=totalPrice.toFixed(2);
+
+}
+
+confirmButton.addEventListener("click",function(){
+
+const email=document.getElementById("email").value;
+const mobileno=document.getElementById("mobileno").value;
+const firstname=document.getElementById("firstname").value;
+const lastname=document.getElementById("lastname").value;
+
+if(!email || !mobileno || !firstname || !lastname){
+
+errorMessage.textContent="Please fill all fields.";
+return;
+
+}
+
+errorMessage.textContent="";
+
+const cart=getCartData();
+
+const totalPrice=totalPriceElement.textContent;
+
+const orderId="ORD-"+Date.now();
+
+const orderTime=new Date().toLocaleString();
+
+const cartFormatted=cart.map(item=>{
+const qty=item.quantity || 1;
+return qty+" × "+item.name+" — ₹"+item.price;
+}).join("\n");
+
+const templateParams={
+
+firstname:firstname,
+lastname:lastname,
+email:email,
+mobileno:mobileno,
+cart:cartFormatted,
+totalPrice:totalPrice,
+orderId:orderId,
+orderTime:orderTime
+
+};
+
+loadingSymbol.style.display="block";
+
+emailjs.send(
+"service_7c3kldr",
+"template_800hx2f",
+templateParams
+)
+
+.then(function(){
+
+loadingSymbol.style.display="none";
+confirmButton.style.display="none";
+
+orderStatus.innerHTML="✅ Order placed successfully!<br><b>Order ID:</b> "+orderId;
+
+})
+.catch(function(error){
+
+loadingSymbol.style.display="none";
+orderStatus.innerHTML="❌ Failed to send order";
+
+console.log(error);
+
+});
+
+});
+
+displayOrderItems();
+
+});
+
+</script>
+
 </body>
 </html>
